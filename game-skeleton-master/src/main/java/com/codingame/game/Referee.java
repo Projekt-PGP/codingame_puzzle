@@ -7,8 +7,11 @@ import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.google.inject.Inject;
 
 public class Referee extends AbstractReferee {
-    @Inject private SoloGameManager<Player> gameManager;
+    @Inject
+    public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
+
+    private int actualRoom;
 
     @Override
     public void init() {
@@ -17,6 +20,11 @@ public class Referee extends AbstractReferee {
 
     @Override
     public void gameTurn(int turn) {
+
+    }
+
+    public void chechInvalidAction()
+    {
 
     }
 }
