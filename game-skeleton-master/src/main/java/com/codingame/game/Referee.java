@@ -1,5 +1,4 @@
 package com.codingame.game;
-import java.util.List;
 
 import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
