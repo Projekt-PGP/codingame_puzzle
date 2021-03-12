@@ -11,10 +11,4 @@ public class Player extends AbstractSoloPlayer {
         // Returns the number of expected lines of outputs for a player
         return 1;
     }
-
-    /*public Action getAction() throws TimeoutException
-    {
-        String output = getOutputs().get(0);
-        return new Action(Integer.parseInt(output));
-    }*/
 }

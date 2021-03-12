@@ -12,7 +12,7 @@ public class Referee extends AbstractReferee {
     @Inject
     public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
-    private int actualRoom;
+    public int actualRoom;
     Graph graph;
     public int hp;
     public int stamina;
@@ -20,14 +20,15 @@ public class Referee extends AbstractReferee {
     @Override
     public void init() {
         // Initialize your game here
-        //creating graph
+        // creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
         int vertices = Integer.parseInt(graphConstructor[0]);
         int lines = Integer.parseInt(graphConstructor[1]);
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
         int start = Integer.parseInt(graphConstructor[4]);
-        int exit = Integer.parseInt((graphConstructor[5]));
+        int exit = Integer.parseInt(graphConstructor[5]);
+
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
         //graph.print_graph();
@@ -35,20 +36,38 @@ public class Referee extends AbstractReferee {
 
     @Override
     public void gameTurn(int turn) {
+
         gameManager.getPlayer().sendInputLine(String.format(graph.print_graph()));
         gameManager.getPlayer().sendInputLine("Your actual room is: " + actualRoom);
 
         gameManager.getPlayer().execute();
         try {
             List<String> outputs =gameManager.getPlayer().getOutputs();
+            String output = "2";
+            //String output = checkOutput(outputs);
 
-            //String output =
+            if (output != null)
+            {
+                Action action = new Action(actualRoom, Integer.parseInt(output), graph);
+                if (action.destination!=-1)
+                {
+                    actualRoom=Integer.parseInt(output);
+                }
+                else
+                {
+                    gameManager.loseGame("you cant go to this room");
+                }
+                //System.out.println(graph.list[actualRoom]);
+                //stamina= graph.list[actualRoom].get(1);
+            }
         } catch (TimeoutException e) {
             gameManager.loseGame("Timeout!");
         }
+        //checkLose();
+        checkVictory();
     }
 
-    public void checkOutput(List<String> outputs)
+    public String checkOutput(List<String> outputs)
     {
         if (outputs.size()!=1)
         {
@@ -62,7 +81,14 @@ public class Referee extends AbstractReferee {
                 gameManager.loseGame(String.format("Expected output: a number between 0 and %d but recived %s",
                         graph.getVertices(),output));
             }
+            else if (Integer.parseInt(output)>=graph.getVertices())
+            {
+                gameManager.loseGame("Outputed number is greater than number of verticles");
+            } else {
+                return output;
+            }
         }
+        return null;
     }
 
     public void checkVictory()
@@ -72,9 +98,9 @@ public class Referee extends AbstractReferee {
     }
     public void checkLose()
     {
-        if (hp<=0|| stamina<=0 && actualRoom!=graph.getExitVertice())
+        if ((hp<=0|| stamina<=0) && actualRoom!=graph.getExitVertice())
         {
-            gameManager.loseGame("You lost.");
+            gameManager.loseGame("You lost!");
         }
     }
 }

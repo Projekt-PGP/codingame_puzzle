@@ -1,13 +1,15 @@
 package com.codingame.game;
 
 public class Action {
-    private int destination;
+    public int destination;
     public Action(int actualRoom,int tagetRoom,Graph g)
     {
         if (checkMove(actualRoom,tagetRoom,g))
         {
             destination = tagetRoom;
         }
+        else
+            destination=-1;
     }
 
     public boolean checkMove(int actualRoom,int targetRoom, Graph g)

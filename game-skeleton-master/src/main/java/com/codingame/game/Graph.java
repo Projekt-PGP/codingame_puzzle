@@ -1,7 +1,8 @@
 package com.codingame.game;
-import java.util.*;
 
 import org.javatuples.Pair;
+
+import java.util.ArrayList;
 
 public class Graph {
 	private int vertices;

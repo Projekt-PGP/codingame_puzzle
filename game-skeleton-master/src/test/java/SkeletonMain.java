@@ -6,9 +6,6 @@ public class SkeletonMain {
 
         SoloGameRunner gameRunner = new SoloGameRunner();
 
-        // Sets the player
-        // gameRunner.setAgent(Player1.class);
-
         // Sets a test case
          gameRunner.setTestCase("test1.json");
 
@@ -18,7 +15,6 @@ public class SkeletonMain {
 
         gameRunner.start();
 
-        //gameRunner.start();
         //Graph g = new Graph(5,2,"1 0 5 5 5","1 0 2 1 2 5",1,0);
         //g.print_graph();
     }
