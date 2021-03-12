@@ -1,3 +1,4 @@
+import com.codingame.game.Graph;
 import com.codingame.gameengine.runner.SoloGameRunner;
 
 public class SkeletonMain {
@@ -9,17 +10,16 @@ public class SkeletonMain {
         // gameRunner.setAgent(Player1.class);
 
         // Sets a test case
-        // gameRunner.setTestCase("test1.json");
+         gameRunner.setTestCase("test1.json");
 
         // Adds as many player as you need to test your game
         gameRunner.setAgent(Agent.class);
 
-<<<<<<< Updated upstream
+
         gameRunner.start();
-=======
+
         //gameRunner.start();
-        Graph g = new Graph(5,2,"1 0 5 5 5","1 0 2 1 2 5",1,0);
-        g.print_graph();
->>>>>>> Stashed changes
+        //Graph g = new Graph(5,2,"1 0 5 5 5","1 0 2 1 2 5",1,0);
+        //g.print_graph();
     }
 }

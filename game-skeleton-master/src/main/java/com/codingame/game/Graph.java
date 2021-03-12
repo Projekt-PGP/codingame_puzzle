@@ -37,19 +37,21 @@ public class Graph {
 		
 	}
 	
-	public void print_graph() {
+	public String print_graph() {
+		String res="";
 		for(int i = 0; i < vertices; i++) {
-			System.out.print("Vertice number : ");
-			System.out.print(i);
-			System.out.print(" Weight : ");
-			System.out.println(weights[i]);
+			res+="Vertice number : ";
+			res+=i;
+			res+=" Weight : ";
+			res+=weights[i]+"\n";
 			for (Pair<Integer,Integer> p : list[i]) {
-				System.out.print(p.getValue0());
-				System.out.print(" ");
-				System.out.print(p.getValue1());
-				System.out.println();
+				res+=p.getValue0();
+				res+=" ";
+				res+=p.getValue1()+"\n";
 			}
 		}
+		res+="The exit room is room number: " + exitVertice;
+		return res;
 	}
 
 	public void setStartVertice(int n)
@@ -64,6 +66,10 @@ public class Graph {
 	public int getExitVertice()
 	{
 		return exitVertice;
+	}
+	public int getVertices()
+	{
+		return vertices;
 	}
 
 }
