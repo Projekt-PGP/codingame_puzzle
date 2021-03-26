@@ -5,12 +5,14 @@ import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
+import com.codingame.gameengine.module.entities.Sprite;
+import com.codingame.gameengine.module.entities.Text;
+import com.codingame.gameengine.module.entities.Line;
 import com.google.inject.Inject;
 import java.util.Arrays;
 
 public class Referee extends AbstractReferee {
-    @Inject
-    public SoloGameManager<Player> gameManager;
+    @Inject public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
     public int actualRoom;
     Graph graph;
@@ -32,6 +34,25 @@ public class Referee extends AbstractReferee {
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
         //graph.print_graph();
+<<<<<<< Updated upstream
+=======
+
+        //Draw background, hp_text, stamina_text (in next version replace text on bars)
+        graphicEntityModule.createSprite()
+                .setImage(Constants.BACKGROUND_SPRITE)
+                .setAnchor(0);
+        graphicEntityModule.createText("HP:")
+                .setFontSize(60)
+                .setFillColor(0x000000)
+                .setX(100)
+                .setY(100);
+        graphicEntityModule.createText("Stamina:")
+                .setFontSize(60)
+                .setFillColor(0x000000)
+                .setX(100)
+                .setY(220);
+
+>>>>>>> Stashed changes
     }
 
     @Override
@@ -94,7 +115,11 @@ public class Referee extends AbstractReferee {
     public void checkVictory()
     {
         if (actualRoom==graph.getExitVertice());
+<<<<<<< Updated upstream
             gameManager.winGame("Congratz, you won!");
+=======
+        gameManager.winGame("Congratz, you won!");
+>>>>>>> Stashed changes
     }
     public void checkLose()
     {
