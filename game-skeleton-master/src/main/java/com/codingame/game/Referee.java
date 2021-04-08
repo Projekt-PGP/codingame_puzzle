@@ -68,6 +68,22 @@ public class Referee extends AbstractReferee {
                 .setFillColor(0x055550)
                 .setX(100)
                 .setY(220);
+        int offset = 30;
+        for(int i = 0; i < vertices; i++) {
+        	for (Pair<Integer,Integer> p : graph.list[i]) {
+        		System.out.println(p.getValue0());
+        		System.out.println(cords_list.get(p.getValue0()).getValue0());
+        		System.out.println(cords_list.get(p.getValue0()).getValue1());
+        		graphicEntityModule.createLine()
+	            .setLineWidth(20)
+	            .setFillColor(0x454545)
+	            .setLineColor(0x454545)
+	            .setX(cords_list.get(p.getValue0()).getValue0()+offset)
+	            .setY(cords_list.get(p.getValue0()).getValue1()+offset)
+	            .setX2(cords_list.get(i).getValue0()+offset)
+	            .setY2(cords_list.get(i).getValue1()+offset);
+        	}
+        }
         int i = 0;
         for (Pair<Integer,Integer> p : cords_list) {
         	if(i == actualRoom) {
@@ -75,6 +91,7 @@ public class Referee extends AbstractReferee {
                 .setImage(Constants.PLAYER_SPRITE)
                 .setX(p.getValue0())
                 .setY(p.getValue1());
+        		i++;
         		continue;
         	}
         	if(cords_valid_list.get(i) == 1) {
@@ -82,6 +99,9 @@ public class Referee extends AbstractReferee {
 	            .setImage(Constants.VERTICLE_SPRITE)
 	            .setX(p.getValue0())
 	            .setY(p.getValue1());
+        		System.out.println(i);
+        		System.out.println(p.getValue0());
+        		System.out.println(p.getValue1());
 	    		i++;
         	}
 		}
