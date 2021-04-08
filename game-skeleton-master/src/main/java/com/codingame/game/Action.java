@@ -12,11 +12,7 @@ public class Action {
             destination=-1;
     }
 
-<<<<<<< Updated upstream
-    public boolean checkMove(int actualRoom,int targetRoom, Graph g)
-=======
     private boolean checkMove(int actualRoom,int targetRoom, Graph g)
->>>>>>> Stashed changes
     {
         if (g.list[actualRoom-1].contains(targetRoom))
         {

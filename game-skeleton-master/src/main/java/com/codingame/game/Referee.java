@@ -23,6 +23,8 @@ public class Referee extends AbstractReferee {
     public void init() {
         // Initialize your game here
         // creating graph
+    	hp = 10;
+    	stamina = 100;
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
         int vertices = Integer.parseInt(graphConstructor[0]);
         int lines = Integer.parseInt(graphConstructor[1]);
@@ -34,25 +36,22 @@ public class Referee extends AbstractReferee {
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
         //graph.print_graph();
-<<<<<<< Updated upstream
-=======
 
         //Draw background, hp_text, stamina_text (in next version replace text on bars)
         graphicEntityModule.createSprite()
                 .setImage(Constants.BACKGROUND_SPRITE)
                 .setAnchor(0);
-        graphicEntityModule.createText("HP:")
+        graphicEntityModule.createText("HP:" + String.valueOf(hp))
                 .setFontSize(60)
-                .setFillColor(0x000000)
+                .setFillColor(0x055550)
                 .setX(100)
                 .setY(100);
-        graphicEntityModule.createText("Stamina:")
+        graphicEntityModule.createText("Stamina:" + String.valueOf(stamina))
                 .setFontSize(60)
-                .setFillColor(0x000000)
+                .setFillColor(0x055550)
                 .setX(100)
                 .setY(220);
 
->>>>>>> Stashed changes
     }
 
     @Override
@@ -115,11 +114,8 @@ public class Referee extends AbstractReferee {
     public void checkVictory()
     {
         if (actualRoom==graph.getExitVertice());
-<<<<<<< Updated upstream
             gameManager.winGame("Congratz, you won!");
-=======
         gameManager.winGame("Congratz, you won!");
->>>>>>> Stashed changes
     }
     public void checkLose()
     {

@@ -11,33 +11,20 @@ public class Graph {
 	private int exitVertice;
 	private int startVertice;
 
-<<<<<<< Updated upstream
-	
-	
-=======
-
-
->>>>>>> Stashed changes
 	public Graph(int vertices, int lines, String weights, String connections, int start,int exit) {
 		this.vertices = vertices;
 		list = new ArrayList[vertices];
 		this.weights = new int[vertices];
 		exitVertice=exit;
 		startVertice=start;
-
-<<<<<<< Updated upstream
 		for (int i = 0; i < vertices; i++) { 
 			list[i] = new ArrayList<Pair<Integer,Integer>>(); 
         } 
 		
-		
-=======
 		for (int i = 0; i < vertices; i++) {
 			list[i] = new ArrayList<Pair<Integer,Integer>>();
 		}
 
-
->>>>>>> Stashed changes
 		String[] data = connections.split(" ");
 		String[] data_weights = weights.split(" ");
 
@@ -50,11 +37,7 @@ public class Graph {
 		}
 
 	}
-<<<<<<< Updated upstream
 	
-=======
-
->>>>>>> Stashed changes
 	public String print_graph() {
 		String res="";
 		for(int i = 0; i < vertices; i++) {
@@ -89,9 +72,4 @@ public class Graph {
 	{
 		return vertices;
 	}
-
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

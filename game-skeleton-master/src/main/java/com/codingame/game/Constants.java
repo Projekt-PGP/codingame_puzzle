@@ -14,7 +14,7 @@ public class Constants {
     
     public static final String PLAYER_SPRITE = "player_png.png";
     public static final String VERTICLE_SPRITE = "verticle_png.png";
-    public static final String VERTICLE_PASS_SPRITE = "verticle_pass_png.png"
+    public static final String VERTICLE_PASS_SPRITE = "verticle_pass_png.png";
     public static final String BACKGROUND_SPRITE = "bg_png.png";
 
 
