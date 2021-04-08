@@ -34,8 +34,6 @@ public class Referee extends AbstractReferee {
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
         //graph.print_graph();
-<<<<<<< Updated upstream
-=======
 
         //Draw background, hp_text, stamina_text (in next version replace text on bars)
         graphicEntityModule.createSprite()
@@ -52,7 +50,6 @@ public class Referee extends AbstractReferee {
                 .setX(100)
                 .setY(220);
 
->>>>>>> Stashed changes
     }
 
     @Override
@@ -115,11 +112,7 @@ public class Referee extends AbstractReferee {
     public void checkVictory()
     {
         if (actualRoom==graph.getExitVertice());
-<<<<<<< Updated upstream
             gameManager.winGame("Congratz, you won!");
-=======
-        gameManager.winGame("Congratz, you won!");
->>>>>>> Stashed changes
     }
     public void checkLose()
     {

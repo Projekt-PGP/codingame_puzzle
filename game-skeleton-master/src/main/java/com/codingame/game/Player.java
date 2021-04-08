@@ -9,8 +9,4 @@ public class Player extends AbstractSoloPlayer {
     public int getExpectedOutputLines() {
         return 1;
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
