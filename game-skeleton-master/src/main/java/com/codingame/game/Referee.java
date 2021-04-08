@@ -22,6 +22,7 @@ public class Referee extends AbstractReferee {
     public int hp;
     public int stamina;
     public ArrayList<Pair<Integer,Integer>> cords_list;
+    public ArrayList<Integer> cords_valid_list;
 
     @Override
     public void init() {
@@ -35,12 +36,18 @@ public class Referee extends AbstractReferee {
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
         int start = Integer.parseInt(graphConstructor[4]);
+        actualRoom = start;
         int exit = Integer.parseInt(graphConstructor[5]);
         String[] cords = graphConstructor[6].split(" ");
         cords_list = new ArrayList<Pair<Integer,Integer>>();
+        cords_valid_list = new ArrayList<Integer>();
         
         for(int i = 0; i < vertices; i += 1) {
         	cords_list.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
+        	if (i == actualRoom) {
+        		cords_valid_list.add(0);
+        	}
+    		cords_valid_list.add(1);
         }
 
         graph=new Graph(vertices,lines,weights,connections,start,exit);
@@ -61,11 +68,22 @@ public class Referee extends AbstractReferee {
                 .setFillColor(0x055550)
                 .setX(100)
                 .setY(220);
+        int i = 0;
         for (Pair<Integer,Integer> p : cords_list) {
-        	graphicEntityModule.createSprite()
-            .setImage(Constants.VERTICLE_SPRITE)
-            .setX(p.getValue0())
-            .setY(p.getValue1());
+        	if(i == actualRoom) {
+        		graphicEntityModule.createSprite()
+                .setImage(Constants.PLAYER_SPRITE)
+                .setX(p.getValue0())
+                .setY(p.getValue1());
+        		continue;
+        	}
+        	if(cords_valid_list.get(i) == 1) {
+	        	graphicEntityModule.createSprite()
+	            .setImage(Constants.VERTICLE_SPRITE)
+	            .setX(p.getValue0())
+	            .setY(p.getValue1());
+	    		i++;
+        	}
 		}
 
     }
