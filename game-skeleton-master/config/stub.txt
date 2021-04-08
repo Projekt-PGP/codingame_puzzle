@@ -1,1 +1,4 @@
 read Graph:string(30)
+read exit:int
+gameloop
+read actualRoom:int

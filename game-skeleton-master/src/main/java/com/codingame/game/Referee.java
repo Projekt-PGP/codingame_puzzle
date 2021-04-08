@@ -62,7 +62,7 @@ public class Referee extends AbstractReferee {
         gameManager.getPlayer().execute();
         try {
             List<String> outputs =gameManager.getPlayer().getOutputs();
-            String output = "2";
+            String output = "1";
             //String output = checkOutput(outputs);
 
             if (output != null)
@@ -71,14 +71,13 @@ public class Referee extends AbstractReferee {
                 if (action.destination!=-1)
                 {
                     actualRoom=Integer.parseInt(output);
+                    checkVictory();
+                    checkLose();
                 }
                 else
                 {
                     gameManager.loseGame("you cant go to this room");
-                    return;
                 }
-                //System.out.println(graph.list[actualRoom]);
-                //stamina= graph.list[actualRoom].get(1);
             }
         } catch (TimeoutException e) {
             gameManager.loseGame("Timeout!");
@@ -114,7 +113,7 @@ public class Referee extends AbstractReferee {
 
     public void checkVictory()
     {
-        if (actualRoom==graph.getExitVertice());
+        if (actualRoom==graph.getExitVertice())
             gameManager.winGame("Congratz, you won!");
     }
     public void checkLose()
