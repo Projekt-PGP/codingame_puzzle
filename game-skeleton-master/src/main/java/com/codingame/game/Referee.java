@@ -1,5 +1,6 @@
 package com.codingame.game;
 import java.util.List;
+import org.javatuples.Pair;
 
 import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
 import com.codingame.gameengine.core.AbstractReferee;
@@ -9,6 +10,8 @@ import com.codingame.gameengine.module.entities.Sprite;
 import com.codingame.gameengine.module.entities.Text;
 import com.codingame.gameengine.module.entities.Line;
 import com.google.inject.Inject;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Referee extends AbstractReferee {
@@ -18,6 +21,7 @@ public class Referee extends AbstractReferee {
     Graph graph;
     public int hp;
     public int stamina;
+    public ArrayList<Pair<Integer,Integer>> cords_list;
 
     @Override
     public void init() {
@@ -32,6 +36,12 @@ public class Referee extends AbstractReferee {
         String connections = graphConstructor[3];
         int start = Integer.parseInt(graphConstructor[4]);
         int exit = Integer.parseInt(graphConstructor[5]);
+        String[] cords = graphConstructor[6].split(" ");
+        cords_list = new ArrayList<Pair<Integer,Integer>>();
+        
+        for(int i = 0; i < vertices; i += 2) {
+        	cords_list.add(Pair.with(Integer.parseInt(cords[i]), Integer.parseInt(cords[i+1])));
+        }
 
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
