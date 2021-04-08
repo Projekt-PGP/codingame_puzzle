@@ -40,15 +40,17 @@ public class Referee extends AbstractReferee {
         //Draw background, hp_text, stamina_text (in next version replace text on bars)
         graphicEntityModule.createSprite()
                 .setImage(Constants.BACKGROUND_SPRITE)
-                .setAnchor(0);
+                .setAnchor(0)
+                .setBaseWidth(1920)
+                .setBaseHeight(1080);
         graphicEntityModule.createText("HP:")
                 .setFontSize(60)
-                .setFillColor(0x000000)
+                .setFillColor(0xFFFFFF)
                 .setX(100)
                 .setY(100);
         graphicEntityModule.createText("Stamina:")
                 .setFontSize(60)
-                .setFillColor(0x000000)
+                .setFillColor(0xFFFFFF)
                 .setX(100)
                 .setY(220);
 
