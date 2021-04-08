@@ -24,12 +24,14 @@ public class Referee extends AbstractReferee {
         // Initialize your game here
         // creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
+        gameManager.getPlayer().sendInputLine(gameManager.getTestCaseInput().get(0));
         int vertices = Integer.parseInt(graphConstructor[0]);
         int lines = Integer.parseInt(graphConstructor[1]);
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
         int start = Integer.parseInt(graphConstructor[4]);
         int exit = Integer.parseInt(graphConstructor[5]);
+        gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
@@ -57,9 +59,8 @@ public class Referee extends AbstractReferee {
     @Override
     public void gameTurn(int turn) {
 
-        gameManager.getPlayer().sendInputLine(String.format(graph.print_graph()));
-        gameManager.getPlayer().sendInputLine("Your actual room is: " + actualRoom);
-
+        //gameManager.getPlayer().sendInputLine();
+        gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
         gameManager.getPlayer().execute();
         try {
             List<String> outputs =gameManager.getPlayer().getOutputs();
@@ -76,14 +77,16 @@ public class Referee extends AbstractReferee {
                 else
                 {
                     gameManager.loseGame("you cant go to this room");
+                    return;
                 }
                 //System.out.println(graph.list[actualRoom]);
                 //stamina= graph.list[actualRoom].get(1);
             }
         } catch (TimeoutException e) {
             gameManager.loseGame("Timeout!");
+            return;
         }
-        //checkLose();
+        checkLose();
         checkVictory();
     }
 
