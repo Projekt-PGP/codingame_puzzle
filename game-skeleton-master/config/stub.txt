@@ -1,4 +1,4 @@
 read Graph:string(30)
 read exit:int
+gameloop
 read actualRoom:int
-read chuj:string(30)
