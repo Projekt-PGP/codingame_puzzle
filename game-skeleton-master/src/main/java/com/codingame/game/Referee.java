@@ -31,7 +31,12 @@ public class Referee extends AbstractReferee {
         stamina = 100;
         // creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
-        gameManager.getPlayer().sendInputLine(gameManager.getTestCaseInput().get(0));
+        String testInput="";
+        for (int i=0;i<5;i++)
+        {
+            testInput=testInput+graphConstructor[i]+";";
+        }
+        gameManager.getPlayer().sendInputLine(testInput);
         int vertices = Integer.parseInt(graphConstructor[0]);
         int lines = Integer.parseInt(graphConstructor[1]);
         String weights = graphConstructor[2];
@@ -45,6 +50,7 @@ public class Referee extends AbstractReferee {
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
         graph=new Graph(vertices,lines,weights,connections,start,exit);
+        System.out.println(graph.print_graph());
         actualRoom = graph.getStartVertice();
 
         for(int i = 0; i < vertices; i += 1) {
@@ -76,9 +82,6 @@ public class Referee extends AbstractReferee {
         int offset = 30;
         for(int i = 0; i < vertices; i++) {
             for (Pair<Integer,Integer> p : graph.list[i]) {
-                System.out.println(p.getValue0());
-                System.out.println(cords_list.get(p.getValue0()).getValue0());
-                System.out.println(cords_list.get(p.getValue0()).getValue1());
                 graphicEntityModule.createLine()
                         .setLineWidth(20)
                         .setFillColor(0x454545)
@@ -104,9 +107,6 @@ public class Referee extends AbstractReferee {
                         .setImage(Constants.VERTICLE_SPRITE)
                         .setX(p.getValue0())
                         .setY(p.getValue1());
-                System.out.println(i);
-                System.out.println(p.getValue0());
-                System.out.println(p.getValue1());
                 i++;
             }
         }
@@ -116,13 +116,12 @@ public class Referee extends AbstractReferee {
     @Override
     public void gameTurn(int turn) {
 
-        //gameManager.getPlayer().sendInputLine();
         gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
         gameManager.getPlayer().execute();
         try {
             List<String> outputs =gameManager.getPlayer().getOutputs();
-            String output = "2";
-            //String output = checkOutput(outputs);
+            //String output = "2";
+            String output = checkOutput(outputs);
 
             if (output != null)
             {
@@ -130,15 +129,11 @@ public class Referee extends AbstractReferee {
                 if (action.destination!=-1)
                 {
                     actualRoom=Integer.parseInt(output);
-                    checkVictory();
-                    checkLose();
                 }
                 else
                 {
                     gameManager.loseGame("you cant go to this room");
                 }
-                //System.out.println(graph.list[actualRoom]);
-                //stamina= graph.list[actualRoom].get(1);
             }
         } catch (TimeoutException e) {
             gameManager.loseGame("Timeout!");

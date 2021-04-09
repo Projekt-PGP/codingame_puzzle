@@ -1,5 +1,7 @@
 package com.codingame.game;
 
+import org.javatuples.Pair;
+
 public class Action {
     public int destination;
     public Action(int actualRoom,int tagetRoom,Graph g)
@@ -15,9 +17,9 @@ public class Action {
 
     private boolean checkMove(int actualRoom,int targetRoom, Graph g)
     {
-        if (g.list[actualRoom-1].contains(targetRoom))
-        {
-            return true;
+        for (Pair<Integer,Integer> p:g.list[actualRoom]) {
+            if (p.getValue0()==targetRoom)
+                return true;
         }
         return false;
     }
