@@ -1,15 +1,24 @@
 package com.codingame.game;
 
 public class Action {
-    public final int destination;
-
-    public Action (int n)
+    public int destination;
+    public Action(int actualRoom,int tagetRoom,Graph g)
     {
-        destination=n;
+        if (checkMove(actualRoom,tagetRoom,g))
+        {
+            destination = tagetRoom;
+        }
+        else
+            destination=-1;
     }
-    @Override
-    public String toString()
+
+
+    private boolean checkMove(int actualRoom,int targetRoom, Graph g)
     {
-        return String.format("%d",destination);
+        if (g.list[actualRoom-1].contains(targetRoom))
+        {
+            return true;
+        }
+        return false;
     }
 }
