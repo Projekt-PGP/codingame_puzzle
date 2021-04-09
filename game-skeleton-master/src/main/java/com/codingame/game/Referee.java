@@ -115,13 +115,14 @@ public class Referee extends AbstractReferee {
 
     @Override
     public void gameTurn(int turn) {
-
+        //gameManager.setTurnMaxTime(1000);
+        String output="";
         gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
         gameManager.getPlayer().execute();
         try {
             List<String> outputs =gameManager.getPlayer().getOutputs();
             //String output = "2";
-            String output = checkOutput(outputs);
+            output = checkOutput(outputs);
 
             if (output != null)
             {
