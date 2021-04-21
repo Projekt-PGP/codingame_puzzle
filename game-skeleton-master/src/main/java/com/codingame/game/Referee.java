@@ -1,10 +1,12 @@
 package com.codingame.game;
 import java.util.List;
+import java.util.Random;
 import org.javatuples.Pair;
 
 
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
+import com.codingame.gameengine.module.entities.Curve;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 
 import com.google.inject.Inject;
@@ -21,6 +23,9 @@ public class Referee extends AbstractReferee {
     public int stamina;
     public ArrayList<Pair<Integer,Integer>> cords_list;
     public ArrayList<Integer> cords_valid_list;
+    public int sprite_idx[];
+    public Sprite sprites[];
+    int player_idx;
 
     @Override
     public void init() {
@@ -46,6 +51,9 @@ public class Referee extends AbstractReferee {
         String[] cords = graphConstructor[8].split(" ");
         cords_list = new ArrayList<Pair<Integer,Integer>>();
         cords_valid_list = new ArrayList<Integer>();
+        sprite_idx = new int[vertices];
+        sprites = new Sprite[vertices];
+        
 
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
@@ -53,6 +61,7 @@ public class Referee extends AbstractReferee {
         actualRoom = graph.getStartVertice();
 
         for(int i = 0; i < vertices; i += 1) {
+        	sprite_idx[i] = new Random().nextInt(4);
             cords_list.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
             if (i == actualRoom) {
                 cords_valid_list.add(0);
@@ -60,18 +69,20 @@ public class Referee extends AbstractReferee {
             cords_valid_list.add(1);
         }
 
+        
+        
         //Draw background, hp_text, stamina_text (in next version replace text on bars)
         graphicEntityModule.createSprite()
                 .setImage(Constants.BACKGROUND_SPRITE)
                 .setAnchor(0)
                 .setBaseWidth(1920)
                 .setBaseHeight(1080);
-        graphicEntityModule.createText("HP:")
+        graphicEntityModule.createText("HP: " + String.valueOf(hp))
                 .setFontSize(60)
                 .setFillColor(0xFFFFFF)
                 .setX(100)
                 .setY(100);
-        graphicEntityModule.createText("Stamina:")
+        graphicEntityModule.createText("Stamina:" + String.valueOf(stamina))
                 .setFontSize(60)
                 .setFillColor(0xFFFFFF)
                 .setX(100)
@@ -93,7 +104,8 @@ public class Referee extends AbstractReferee {
         int i = 0;
         for (Pair<Integer,Integer> p : cords_list) {
             if(i == actualRoom) {
-                graphicEntityModule.createSprite()
+            	player_idx = i;
+            	sprites[i] = graphicEntityModule.createSprite()
                         .setImage(Constants.PLAYER_SPRITE)
                         .setX(p.getValue0())
                         .setY(p.getValue1());
@@ -101,14 +113,29 @@ public class Referee extends AbstractReferee {
                 continue;
             }
             if(cords_valid_list.get(i) == 1) {
-                graphicEntityModule.createSprite()
-                        .setImage(Constants.VERTICLE_SPRITE)
+                sprites[i] = graphicEntityModule.createSprite()
+                        .setImage(Constants.VERTICLE_SPRITE[sprite_idx[i]])
                         .setX(p.getValue0())
                         .setY(p.getValue1());
                 i++;
             }
         }
 
+    }
+    
+    
+    private double get_angle(double px, double py, double dx, double dy){
+    	double h = Math.abs(py-dy);
+    	double a = Math.abs(px-dx);
+    	return Math.atan(h/a);
+    }
+    
+    private void update(int dest) {
+    	double ang = get_angle(cords_list.get(player_idx).getValue0(), cords_list.get(player_idx).getValue1(),
+				  cords_list.get(dest).getValue0(), cords_list.get(dest).getValue1());
+    	sprites[player_idx].setRotation(ang+Math.PI+Math.PI/4);
+    	graphicEntityModule.commitEntityState(0.2, sprites[player_idx]);
+    	sprites[player_idx].setX(cords_list.get(dest).getValue0()).setY(cords_list.get(dest).getValue1());
     }
 
     @Override
@@ -129,6 +156,8 @@ public class Referee extends AbstractReferee {
                         hp-=graph.getWeights()[action.destination];
                         stamina-=staminaLose(actualRoom,action.destination,graph);
                         actualRoom=action.destination;
+                        update(action.destination);
+                        
                     }
                     else
                     {
@@ -148,6 +177,8 @@ public class Referee extends AbstractReferee {
         checkLose();
         checkVictory();
     }
+    
+    
 
     public String checkOutput(List<String> outputs)
     {
