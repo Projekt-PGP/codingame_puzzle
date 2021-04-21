@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.codingame.gameengine</groupId>
+            <artifactId>module-tooltip</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codingame.gameengine</groupId>
             <artifactId>core</artifactId>
             <version>${gamengine.version}</version>
         </dependency>
