@@ -2,16 +2,14 @@ package com.codingame.game;
 import java.util.List;
 import org.javatuples.Pair;
 
-import com.codingame.gameengine.core.AbstractPlayer.TimeoutException;
+
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
-import com.codingame.gameengine.module.entities.Sprite;
-import com.codingame.gameengine.module.entities.Text;
-import com.codingame.gameengine.module.entities.Line;
+
 import com.google.inject.Inject;
 
-import java.util.Arrays;
+
 import java.util.ArrayList;
 
 public class Referee extends AbstractReferee {
@@ -27,16 +25,15 @@ public class Referee extends AbstractReferee {
     @Override
     public void init() {
         // Initialize your game here
-        hp = 10;
-        stamina = 10;
+
         // creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
         String testInput="";
-        for (int i=0;i<5;i++)
+        for (int i=0;i<=7;i++)
         {
             testInput=testInput+graphConstructor[i]+";";
         }
-        testInput=testInput.substring(0,testInput.length()-2);
+        testInput=testInput.substring(0,testInput.length()-1);
         gameManager.getPlayer().sendInputLine(testInput);
         int vertices = Integer.parseInt(graphConstructor[0]);
         int lines = Integer.parseInt(graphConstructor[1]);
@@ -44,7 +41,9 @@ public class Referee extends AbstractReferee {
         String connections = graphConstructor[3];
         int start = Integer.parseInt(graphConstructor[4]);
         int exit = Integer.parseInt(graphConstructor[5]);
-        String[] cords = graphConstructor[6].split(" ");
+        hp = Integer.parseInt(graphConstructor[6]);
+        stamina= Integer.parseInt(graphConstructor[7]);
+        String[] cords = graphConstructor[8].split(" ");
         cords_list = new ArrayList<Pair<Integer,Integer>>();
         cords_valid_list = new ArrayList<Integer>();
 
