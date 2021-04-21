@@ -63,7 +63,8 @@ public class Referee extends AbstractReferee {
 
         graph=new Graph(vertices,lines,weights,connections,start,exit);
         actualRoom = graph.getStartVertice();
-
+        
+        //Draw planets
         for(int i = 0; i < vertices; i += 1) {
         	sprite_idx[i] = new Random().nextInt(4);
             cords_list.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
@@ -92,6 +93,7 @@ public class Referee extends AbstractReferee {
                 .setX(100)
                 .setY(220);
 
+        //Draw lines between planets
         int offset = 30;
         for(int i = 0; i < vertices; i++) {
             for (Pair<Integer,Integer> p : graph.list[i]) {
@@ -126,18 +128,9 @@ public class Referee extends AbstractReferee {
         }
 
     }
-    
-    
-    private double get_angle(double px, double py, double dx, double dy){
-    	double h = Math.abs(py-dy);
-    	double a = Math.abs(px-dx);
-    	return Math.atan(h/a);
-    }
+
     
     private void update(int dest) {
-    	double ang = get_angle(cords_list.get(player_idx).getValue0(), cords_list.get(player_idx).getValue1(),
-				  cords_list.get(dest).getValue0(), cords_list.get(dest).getValue1());
-    	sprites[player_idx].setRotation(ang+Math.PI+Math.PI/4);
     	graphicEntityModule.commitEntityState(0.2, sprites[player_idx]);
     	sprites[player_idx].setX(cords_list.get(dest).getValue0()).setY(cords_list.get(dest).getValue1());
     }
