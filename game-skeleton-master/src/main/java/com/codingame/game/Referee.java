@@ -9,8 +9,9 @@ import org.javatuples.Pair;
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
 import com.codingame.gameengine.module.entities.Curve;
+import com.codingame.gameengine.module.entities.Sprite;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
-
+import com.codingame.gameengine.module.tooltip.*;
 import com.google.inject.Inject;
 
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class Referee extends AbstractReferee {
     @Inject public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
+    @Inject TooltipModule tooltips;
     public int actualRoom;
     Graph graph;
     public int hp;
