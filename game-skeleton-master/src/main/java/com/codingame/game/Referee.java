@@ -1,6 +1,8 @@
 package com.codingame.game;
 import java.util.List;
 import java.util.Random;
+
+import com.codingame.gameengine.module.entities.Sprite;
 import org.javatuples.Pair;
 
 
