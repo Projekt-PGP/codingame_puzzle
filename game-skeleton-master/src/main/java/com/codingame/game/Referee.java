@@ -31,8 +31,11 @@ public class Referee extends AbstractReferee {
     private int start;
     private int exit;
     private int spriteIdx[];
-    private int xOff = 35;
-    private int yOff = 30;
+    private int xOffPlayer = 35;
+    private int yOffPlayer = 30;
+    private int xOffPlanet = 64;
+    private int yOffPlanet = 64;
+    
     
     private Sprite spritesPlanets[];
     private Sprite spritesAliens[];
@@ -43,7 +46,7 @@ public class Referee extends AbstractReferee {
     private ArrayList<Pair<Integer,Integer>> cordsList;
     private ArrayList<Integer> cordsValidList;
 
-    Graph graph;
+    private Graph graph;
 
     
     private void drawLines() {
@@ -54,10 +57,10 @@ public class Referee extends AbstractReferee {
                         .setLineWidth(10)
                         .setFillColor(0x454545)
                         .setLineColor(0x454545)
-                        .setX(cordsList.get(p.getValue0()).getValue0()+xOff)
-                        .setY(cordsList.get(p.getValue0()).getValue1()+yOff)
-                        .setX2(cordsList.get(i).getValue0()+xOff)
-                        .setY2(cordsList.get(i).getValue1()+yOff);
+                        .setX(cordsList.get(p.getValue0()).getValue0()+xOffPlanet)
+                        .setY(cordsList.get(p.getValue0()).getValue1()+xOffPlanet)
+                        .setX2(cordsList.get(i).getValue0()+xOffPlanet)
+                        .setY2(cordsList.get(i).getValue1()+yOffPlanet);
                 
             }
         }
@@ -79,15 +82,15 @@ public class Referee extends AbstractReferee {
             if (i == actualRoom) {
             	playerSprite = graphicEntityModule.createSprite()
                         .setImage(Constants.PLAYER_SPRITE)
-                        .setX(p.getValue0()+xOff)
-                        .setY(p.getValue1()+yOff);
+                        .setX(p.getValue0()+xOffPlayer)
+                        .setY(p.getValue1()+yOffPlayer);
                 tooltips.setTooltipText(playerSprite, "Player");
             }
             else {
             	spritesAliens[i] = graphicEntityModule.createSprite()
                         .setImage(Constants.VERTICLE_ENEMY)
-                        .setX(p.getValue0()+xOff)
-                        .setY(p.getValue1()+yOff);
+                        .setX(p.getValue0()+xOffPlayer)
+                        .setY(p.getValue1()+yOffPlayer);
             }
             
             i++;
@@ -116,7 +119,15 @@ public class Referee extends AbstractReferee {
 		        .setY(220);
 		
     }
-    
+
+    private void update(int dest) {
+
+    	playerSprite.setX(cordsList.get(dest).getValue0()+35).setY(cordsList.get(dest).getValue1()+28);
+    	spritesAliens[dest].setVisible(false);
+    	hpText.setText("HP: " + String.valueOf(hp));
+    	staminaText.setText("Stamina: " + String.valueOf(stamina));
+    	
+    }    
     @Override
     public void init() {
         // Creating graph
@@ -173,16 +184,6 @@ public class Referee extends AbstractReferee {
         drawPlanets();
 
         
-    }
-
-    
-    private void update(int dest) {
-
-    	playerSprite.setX(cordsList.get(dest).getValue0()+35).setY(cordsList.get(dest).getValue1()+28);
-    	spritesAliens[dest].setVisible(false);
-    	hpText.setText("HP: " + String.valueOf(hp));
-    	staminaText.setText("Stamina: " + String.valueOf(stamina));
-    	
     }
 
     @Override
