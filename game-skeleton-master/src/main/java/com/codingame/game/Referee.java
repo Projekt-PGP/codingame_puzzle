@@ -161,29 +161,22 @@ public class Referee extends AbstractReferee {
         testInput=testInput.substring(0,testInput.length()-1);
         gameManager.getPlayer().sendInputLine(testInput);
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
-        
-        
+
 
         graph = new Graph(vertices,edges,weights,connections,start,exit);
         
         for(int i = 0; i < vertices; i += 1) {
-        	
         	spriteIdx[i] = new Random().nextInt(4);
             cordsList.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
             
             if (i == actualRoom) {
                 cordsValidList.add(0);
             }
-            
             cordsValidList.add(1);
-            
         }
-
         drawBgDesc();
         drawLines();
         drawPlanets();
-
-        
     }
 
     @Override
@@ -263,6 +256,7 @@ public class Referee extends AbstractReferee {
         if (actualRoom==graph.getExitVertice())
             gameManager.winGame("Congratz, you won!");
     }
+
     public void checkLose()
     {
         if ((hp<=0|| stamina<=0) && actualRoom!=graph.getExitVertice())
@@ -270,6 +264,7 @@ public class Referee extends AbstractReferee {
             gameManager.loseGame("You lost!");
         }
     }
+
     public int staminaLose(int actualRoom,int destinationRoom,Graph g)
     {
         for (Pair<Integer,Integer> p:g.list[actualRoom]) {
