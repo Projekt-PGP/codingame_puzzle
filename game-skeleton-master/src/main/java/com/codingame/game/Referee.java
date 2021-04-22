@@ -3,13 +3,12 @@ import java.util.List;
 import java.util.Random;
 
 import com.codingame.gameengine.module.entities.Sprite;
-import org.javatuples.Pair;
+import com.codingame.gameengine.module.entities.Text;
 
+import org.javatuples.Pair;
 
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
-import com.codingame.gameengine.module.entities.Curve;
-import com.codingame.gameengine.module.entities.Sprite;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.codingame.gameengine.module.tooltip.*;
 import com.google.inject.Inject;
@@ -18,25 +17,116 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 
 public class Referee extends AbstractReferee {
+	
     @Inject public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
     @Inject TooltipModule tooltips;
-    public int actualRoom;
-    Graph graph;
-    public int hp;
-    public int stamina;
-    public ArrayList<Pair<Integer,Integer>> cords_list;
-    public ArrayList<Integer> cords_valid_list;
-    public int sprite_idx[];
-    public Sprite sprites[];
-    int player_idx;
+    
+    private int actualRoom;
+    private int hp;
+    private int stamina;
+    private int vertices;
+    private int edges;
+    
+    private int start;
+    private int exit;
+    private int spriteIdx[];
+    private int xOff = 35;
+    private int yOff = 30;
+    
+    private Sprite sprites[];
+    private Sprite playerSprite;
+    private Text hpText;
+    private Text staminaText;
+    
+    private ArrayList<Pair<Integer,Integer>> cordsList;
+    private ArrayList<Integer> cordsValidList;
 
+    Graph graph;
+
+    
+    private void drawLines() {
+        for(int i = 0; i < vertices; i++) {
+            for (Pair<Integer,Integer> p : graph.list[i]) {
+                graphicEntityModule.createLine()
+                        .setLineWidth(10)
+                        .setFillColor(0x454545)
+                        .setLineColor(0x454545)
+                        .setX(cordsList.get(p.getValue0()).getValue0()+xOff)
+                        .setY(cordsList.get(p.getValue0()).getValue1()+yOff)
+                        .setX2(cordsList.get(i).getValue0()+xOff)
+                        .setY2(cordsList.get(i).getValue1()+yOff);
+            }
+        }
+    }
+    
+    private void drawPlanets() {
+    	int i = 0;
+        for (Pair<Integer,Integer> p : cordsList) {
+        	
+            sprites[i] = graphicEntityModule.createSprite()
+                   .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
+                   .setX(p.getValue0())
+                   .setY(p.getValue1());
+            
+            if (i == actualRoom) {
+            	playerSprite = graphicEntityModule.createSprite()
+                        .setImage(Constants.PLAYER_SPRITE)
+                        .setX(p.getValue0()+xOff)
+                        .setY(p.getValue1()+yOff);
+            }
+            
+            i++;
+        }
+        
+    }
+    
+    private void drawBgDesc() {
+    	
+    	graphicEntityModule.createSprite()
+        .setImage(Constants.BACKGROUND_SPRITE)
+        .setAnchor(0)
+        .setBaseWidth(1920)
+        .setBaseHeight(1080);
+    	
+		hpText = graphicEntityModule.createText("HP: " + String.valueOf(hp))
+		        .setFontSize(50)
+		        .setFillColor(0xFFFFFF)
+		        .setX(100)
+		        .setY(100);
+		
+		staminaText = graphicEntityModule.createText("Stamina:" + String.valueOf(stamina))
+		        .setFontSize(50)
+		        .setFillColor(0xFFFFFF)
+		        .setX(100)
+		        .setY(220);
+		
+    }
+    
     @Override
     public void init() {
-        // Initialize your game here
-
-        // creating graph
+        // Creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
+        
+        
+        vertices = Integer.parseInt(graphConstructor[0]);
+        edges = Integer.parseInt(graphConstructor[1]);
+        start = Integer.parseInt(graphConstructor[4]);
+        exit = Integer.parseInt(graphConstructor[5]);
+        hp = Integer.parseInt(graphConstructor[6]);
+        stamina= Integer.parseInt(graphConstructor[7]);
+        actualRoom = start;
+
+        cordsList = new ArrayList<Pair<Integer,Integer>>();
+        cordsValidList = new ArrayList<Integer>();
+
+        spriteIdx = new int[vertices];
+        sprites = new Sprite[vertices];
+        
+        String weights = graphConstructor[2];
+        String connections = graphConstructor[3];
+        String[] cords = graphConstructor[8].split(" ");
+
         String testInput="";
         for (int i=0;i<=7;i++)
         {
@@ -44,95 +134,39 @@ public class Referee extends AbstractReferee {
         }
         testInput=testInput.substring(0,testInput.length()-1);
         gameManager.getPlayer().sendInputLine(testInput);
-        int vertices = Integer.parseInt(graphConstructor[0]);
-        int lines = Integer.parseInt(graphConstructor[1]);
-        String weights = graphConstructor[2];
-        String connections = graphConstructor[3];
-        int start = Integer.parseInt(graphConstructor[4]);
-        int exit = Integer.parseInt(graphConstructor[5]);
-        hp = Integer.parseInt(graphConstructor[6]);
-        stamina= Integer.parseInt(graphConstructor[7]);
-        String[] cords = graphConstructor[8].split(" ");
-        cords_list = new ArrayList<Pair<Integer,Integer>>();
-        cords_valid_list = new ArrayList<Integer>();
-        sprite_idx = new int[vertices];
-        sprites = new Sprite[vertices];
-        
-
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
-
-        graph=new Graph(vertices,lines,weights,connections,start,exit);
-        actualRoom = graph.getStartVertice();
         
-        //Draw planets
+        
+
+        graph = new Graph(vertices,edges,weights,connections,start,exit);
+        
         for(int i = 0; i < vertices; i += 1) {
-        	sprite_idx[i] = new Random().nextInt(4);
-            cords_list.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
+        	
+        	spriteIdx[i] = new Random().nextInt(4);
+            cordsList.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
+            
             if (i == actualRoom) {
-                cords_valid_list.add(0);
+                cordsValidList.add(0);
             }
-            cords_valid_list.add(1);
+            
+            cordsValidList.add(1);
+            
         }
 
+        drawBgDesc();
+        drawLines();
+        drawPlanets();
         
-        
-        //Draw background, hp_text, stamina_text (in next version replace text on bars)
-        graphicEntityModule.createSprite()
-                .setImage(Constants.BACKGROUND_SPRITE)
-                .setAnchor(0)
-                .setBaseWidth(1920)
-                .setBaseHeight(1080);
-        graphicEntityModule.createText("HP: " + String.valueOf(hp))
-                .setFontSize(60)
-                .setFillColor(0xFFFFFF)
-                .setX(100)
-                .setY(100);
-        graphicEntityModule.createText("Stamina:" + String.valueOf(stamina))
-                .setFontSize(60)
-                .setFillColor(0xFFFFFF)
-                .setX(100)
-                .setY(220);
-
-        //Draw lines between planets
-        int offset = 30;
-        for(int i = 0; i < vertices; i++) {
-            for (Pair<Integer,Integer> p : graph.list[i]) {
-                graphicEntityModule.createLine()
-                        .setLineWidth(20)
-                        .setFillColor(0x454545)
-                        .setLineColor(0x454545)
-                        .setX(cords_list.get(p.getValue0()).getValue0()+offset)
-                        .setY(cords_list.get(p.getValue0()).getValue1()+offset)
-                        .setX2(cords_list.get(i).getValue0()+offset)
-                        .setY2(cords_list.get(i).getValue1()+offset);
-            }
-        }
-        int i = 0;
-        for (Pair<Integer,Integer> p : cords_list) {
-            if(i == actualRoom) {
-            	player_idx = i;
-            	sprites[i] = graphicEntityModule.createSprite()
-                        .setImage(Constants.PLAYER_SPRITE)
-                        .setX(p.getValue0())
-                        .setY(p.getValue1());
-                i++;
-                continue;
-            }
-            if(cords_valid_list.get(i) == 1) {
-                sprites[i] = graphicEntityModule.createSprite()
-                        .setImage(Constants.VERTICLE_SPRITE[sprite_idx[i]])
-                        .setX(p.getValue0())
-                        .setY(p.getValue1());
-                i++;
-            }
-        }
-
     }
 
     
     private void update(int dest) {
-    	graphicEntityModule.commitEntityState(0.2, sprites[player_idx]);
-    	sprites[player_idx].setX(cords_list.get(dest).getValue0()).setY(cords_list.get(dest).getValue1());
+    	
+    	graphicEntityModule.commitEntityState(0.2, playerSprite);
+    	playerSprite.setX(cordsList.get(dest).getValue0()+35).setY(cordsList.get(dest).getValue1()+28);
+    	hpText.setText("HP: " + String.valueOf(hp));
+    	staminaText.setText("Stamina: " + String.valueOf(stamina));
+    	
     }
 
     @Override
