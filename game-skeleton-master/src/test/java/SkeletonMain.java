@@ -7,9 +7,8 @@ public class SkeletonMain {
         SoloGameRunner gameRunner = new SoloGameRunner();
 
         // Sets a test case
-        //test1 "4;5;4 3 2 5;1 2 3 1 3 4 0 1 1 0 3 4 1 3 3;3;1;500 400 600 600 750 750 1000 900"
         gameRunner.setTestCase("test2.json");
-         gameRunner.setTestCase("test1.json");
+        gameRunner.setTestCase("test1.json");
 
 
         // Adds as many player as you need to test your game
