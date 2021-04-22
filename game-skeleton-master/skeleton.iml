@@ -13,6 +13,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: com.codingame.gameengine:module-tooltip:3.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.codingame.gameengine:module-tooltip:3.4.1" level="project" />
     <orderEntry type="library" name="Maven: com.codingame.gameengine:core:3.15.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.inject:guice:4.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
