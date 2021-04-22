@@ -34,7 +34,8 @@ public class Referee extends AbstractReferee {
     private int xOff = 35;
     private int yOff = 30;
     
-    private Sprite sprites[];
+    private Sprite spritesPlanets[];
+    private Sprite spritesAliens[];
     private Sprite playerSprite;
     private Text hpText;
     private Text staminaText;
@@ -48,6 +49,7 @@ public class Referee extends AbstractReferee {
     private void drawLines() {
         for(int i = 0; i < vertices; i++) {
             for (Pair<Integer,Integer> p : graph.list[i]) {
+            	
                 graphicEntityModule.createLine()
                         .setLineWidth(10)
                         .setFillColor(0x454545)
@@ -56,6 +58,7 @@ public class Referee extends AbstractReferee {
                         .setY(cordsList.get(p.getValue0()).getValue1()+yOff)
                         .setX2(cordsList.get(i).getValue0()+xOff)
                         .setY2(cordsList.get(i).getValue1()+yOff);
+                
             }
         }
     }
@@ -64,14 +67,25 @@ public class Referee extends AbstractReferee {
     	int i = 0;
         for (Pair<Integer,Integer> p : cordsList) {
         	
-            sprites[i] = graphicEntityModule.createSprite()
+            spritesPlanets[i] = graphicEntityModule.createSprite()
                    .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
                    .setX(p.getValue0())
                    .setY(p.getValue1());
             
+            tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + String.valueOf(i));
+            System.out.print(tooltips.getTooltipText(spritesPlanets[i]));
+            
+            
             if (i == actualRoom) {
             	playerSprite = graphicEntityModule.createSprite()
                         .setImage(Constants.PLAYER_SPRITE)
+                        .setX(p.getValue0()+xOff)
+                        .setY(p.getValue1()+yOff);
+                tooltips.setTooltipText(playerSprite, "Player");
+            }
+            else {
+            	spritesAliens[i] = graphicEntityModule.createSprite()
+                        .setImage(Constants.VERTICLE_ENEMY)
                         .setX(p.getValue0()+xOff)
                         .setY(p.getValue1()+yOff);
             }
@@ -121,7 +135,8 @@ public class Referee extends AbstractReferee {
         cordsValidList = new ArrayList<Integer>();
 
         spriteIdx = new int[vertices];
-        sprites = new Sprite[vertices];
+        spritesPlanets = new Sprite[vertices];
+        spritesAliens = new Sprite[vertices];
         
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
@@ -156,14 +171,15 @@ public class Referee extends AbstractReferee {
         drawBgDesc();
         drawLines();
         drawPlanets();
+
         
     }
 
     
     private void update(int dest) {
-    	
-    	graphicEntityModule.commitEntityState(0.2, playerSprite);
+
     	playerSprite.setX(cordsList.get(dest).getValue0()+35).setY(cordsList.get(dest).getValue1()+28);
+    	spritesAliens[dest].setVisible(false);
     	hpText.setText("HP: " + String.valueOf(hp));
     	staminaText.setText("Stamina: " + String.valueOf(stamina));
     	
@@ -171,19 +187,25 @@ public class Referee extends AbstractReferee {
 
     @Override
     public void gameTurn(int turn) {
+    	
         gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
         gameManager.getPlayer().execute();
+        
         try {
+        	
             List<String> outputs =gameManager.getPlayer().getOutputs();
             String output = checkOutput(outputs);
 
             if (output != null)
             {
+            	
                 Action action = new Action(actualRoom, Integer.parseInt(output), graph);
                 if (action.destination!=-1)
                 {
+                	
                     if (hp-graph.getWeights()[action.destination]>=0 && stamina-staminaLose(actualRoom,action.destination,graph)>=0)
                     {
+                    	
                         hp-=graph.getWeights()[action.destination];
                         stamina-=staminaLose(actualRoom,action.destination,graph);
                         actualRoom=action.destination;
