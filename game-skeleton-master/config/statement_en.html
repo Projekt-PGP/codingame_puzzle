@@ -40,7 +40,8 @@
     <div class="blk">
       <div class="title">Input</div>
       <div class="text">
-        <p><span class="statement-lineno">Line 1: </span>one string <var>...</var>, the ...</p>
+        <p><span class="statement-lineno">Line 1: </span>All input.
+          String is separate by <var>;</var>. First information is <var>N</var> - number of vertices. Second argument is <var>E</var> - number of edges. Third information are weight of vertices from 0 to <var>N</var>. Fourth parametr are connect between two vertices and connect weight. The next you get your <var>HP</var> and <var>F</var> - fuel.
       </div>
     </div>
 
@@ -48,7 +49,7 @@
     <div class="blk">
       <div class="title">Output</div>
       <div class="text">
-        <span class="statement-lineno">A single line</span> containing ...
+          Single intiger that will bring you closer to escape vertex.
         <br>
       </div>
     </div>
@@ -56,9 +57,10 @@
     <!-- Protocol block -->
     <div class="blk">
       <div class="title">Constraints</div>
-      <div class="text"><var>...</var> contains between 1 and 500 characters.<br>
-        <br>Allotted response time to output
-        is ≤ <const>2</const> seconds.</div>
+      2 <= <var>N</var> <= 20<br>
+      1 <= <var>E</var> <= 60<br>
+      20 <= <var>HP</var> <= 200<br>
+      20 <= <var>F</var> <= 500<br>
     </div>
         <!-- EXAMPLES -->
     <div class="statement-section statement-examples">
@@ -71,23 +73,23 @@
         <div class="title">Input:</div>
         4;5;4 3 2 5;1 2 3 1 3 4 0 1 1 0 3 4 1 3 3;3;1;20;20
         <div class="title">Information:</div>
-        Number of verticles: 4<br>
-        Number of edges: 5<br>
-        Verticles weight:<br>
+        Number of vertices: 4<br><br>
+        Number of edges: 5<br><br>
+        Vertices weight:<br>
           0: 4<br>
           1: 3<br>
           2: 2<br>
-          3: 5<br>
+          3: 5<br><br>
         Edges weight:<br>
           1<->2: 3<br>
           1<->3: 4<br>
           0<->1: 1<br>
           0<->3: 4<br>
-          1<->3: 3<br>
-        Start vertex: 3<br>
-        End vertex: 1<br>
-        HP: 20<br>
-        Stamina: 20<br>
+          1<->3: 3<br><br>
+        Start vertex: 3<br><br>
+        End vertex: 1<br><br>
+        HP: 20<br><br>
+        Stamina: 20<br><br>
         <div class="title">Example solution:</div>
         0 1
       </div>
@@ -98,10 +100,8 @@
   <div class="statement-story-background">
     <div class="statement-story-cover" style="background-size: cover; background-image: url(https://www.codingame.com/servlet/fileservlet?id=2210505809934)">
       <div class="statement-story">
-        <h1>Title</h1>
-        <div class="story-text">Story
-          <br>
-          Totally optional</div>
+        <h1>Get me out of here!</h1>
+        <div class="story-text">You are trapped in an other solar system. Unfortunately, the movement between some planets has been blocked by asteroids and you only need to use safe routes. In order to escape you must use the energy from the sun of the system.</div>
       </div>
     </div>
   </div>
