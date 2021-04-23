@@ -69,12 +69,18 @@ public class Referee extends AbstractReferee {
     private void drawPlanets() {
     	int i = 0;
         for (Pair<Integer,Integer> p : cordsList) {
-        	
-            spritesPlanets[i] = graphicEntityModule.createSprite()
-                   .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
-                   .setX(p.getValue0())
-                   .setY(p.getValue1());
-            
+        	if(i != exit) {
+                spritesPlanets[i] = graphicEntityModule.createSprite()
+                        .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
+                        .setX(p.getValue0())
+                        .setY(p.getValue1());
+            }
+        	else{
+                spritesPlanets[i] = graphicEntityModule.createSprite()
+                        .setImage(Constants.END_VERTEX)
+                        .setX(p.getValue0())
+                        .setY(p.getValue1());
+            }
             tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + String.valueOf(i));
             System.out.print(tooltips.getTooltipText(spritesPlanets[i]));
             
