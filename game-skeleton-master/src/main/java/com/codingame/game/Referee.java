@@ -81,10 +81,7 @@ public class Referee extends AbstractReferee {
                         .setX(p.getValue0())
                         .setY(p.getValue1());
             }
-            tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + String.valueOf(i));
-            System.out.print(tooltips.getTooltipText(spritesPlanets[i]));
-            
-            
+
             if (i == actualRoom) {
             	playerSprite = graphicEntityModule.createSprite()
                         .setImage(Constants.PLAYER_SPRITE)
@@ -138,8 +135,16 @@ public class Referee extends AbstractReferee {
     public void init() {
         // Creating graph
         String[] graphConstructor = gameManager.getTestCaseInput().get(0).split(";");
-        
-        
+
+        gameManager.getPlayer().sendInputLine(graphConstructor[0]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[1]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[2]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[3]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[6]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[7]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[5]);
+
+
         vertices = Integer.parseInt(graphConstructor[0]);
         edges = Integer.parseInt(graphConstructor[1]);
         start = Integer.parseInt(graphConstructor[4]);
@@ -160,12 +165,12 @@ public class Referee extends AbstractReferee {
         String[] cords = graphConstructor[8].split(" ");
 
         String testInput="";
-        for (int i=0;i<=7;i++)
+        /*for (int i=0;i<=7;i++)
         {
             testInput=testInput+graphConstructor[i]+";";
         }
-        testInput=testInput.substring(0,testInput.length()-1);
-        gameManager.getPlayer().sendInputLine(testInput);
+        testInput=testInput.substring(0,testInput.length()-1);*/
+        //gameManager.getPlayer().sendInputLine(testInput);
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
 
