@@ -3,13 +3,16 @@ import java.util.List;
 import java.util.Random;
 
 import com.codingame.gameengine.module.entities.Sprite;
+import com.codingame.gameengine.module.entities.SpriteAnimation;
 import com.codingame.gameengine.module.entities.Text;
 
 import org.javatuples.Pair;
 
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
+import com.codingame.gameengine.module.entities.Entity;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
+import com.codingame.gameengine.module.entities.Line;
 import com.codingame.gameengine.module.tooltip.*;
 import com.google.inject.Inject;
 
@@ -20,26 +23,28 @@ public class Referee extends AbstractReferee {
 	
     @Inject public SoloGameManager<Player> gameManager;
     @Inject private GraphicEntityModule graphicEntityModule;
-    @Inject TooltipModule tooltips;
+    @Inject private TooltipModule tooltips;
     
     private int actualRoom;
     private int hp;
     private int stamina;
     private int vertices;
     private int edges;
+    private int t = 0;
     
     private int start;
     private int exit;
     private int spriteIdx[];
-    private int xOffPlayer = 35;
-    private int yOffPlayer = 30;
+    private int xOffPlayer = 18;
+    private int yOffPlayer = 15;
     private int xOffPlanet = 64;
     private int yOffPlanet = 64;
     
     
     private Sprite spritesPlanets[];
     private Sprite spritesAliens[];
-    private Sprite playerSprite;
+    private Line lines[];
+    private SpriteAnimation playerSprite;
     private Text hpText;
     private Text staminaText;
     
@@ -50,18 +55,20 @@ public class Referee extends AbstractReferee {
 
     
     private void drawLines() {
+    	int x = 0;
         for(int i = 0; i < vertices; i++) {
             for (Pair<Integer,Integer> p : graph.list[i]) {
             	
-                graphicEntityModule.createLine()
-                        .setLineWidth(10)
+                lines[x] = graphicEntityModule.createLine()
+                        .setLineWidth(15)
                         .setFillColor(0x454545)
                         .setLineColor(0x454545)
                         .setX(cordsList.get(p.getValue0()).getValue0()+xOffPlanet)
                         .setY(cordsList.get(p.getValue0()).getValue1()+xOffPlanet)
                         .setX2(cordsList.get(i).getValue0()+xOffPlanet)
                         .setY2(cordsList.get(i).getValue1()+yOffPlanet);
-                
+                tooltips.setTooltipText(lines[x], "Stamina needed: " + p.getValue1());
+                x++;
             }
         }
     }
@@ -74,20 +81,29 @@ public class Referee extends AbstractReferee {
                         .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
                         .setX(p.getValue0())
                         .setY(p.getValue1());
+            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nWeight: " + graph.getWeight(i));
             }
         	else{
                 spritesPlanets[i] = graphicEntityModule.createSprite()
                         .setImage(Constants.END_VERTEX)
                         .setX(p.getValue0())
                         .setY(p.getValue1());
+                
+            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nWeight: " + graph.getWeight(i) + "\nEnding point");
             }
 
             if (i == actualRoom) {
-            	playerSprite = graphicEntityModule.createSprite()
-                        .setImage(Constants.PLAYER_SPRITE)
+                
+            	playerSprite = graphicEntityModule.createSpriteAnimation()
+                        .setImages(Constants.PLAYER_SPRITES)
                         .setX(p.getValue0()+xOffPlayer)
-                        .setY(p.getValue1()+yOffPlayer);
-                tooltips.setTooltipText(playerSprite, "Player");
+                        .setY(p.getValue1()+yOffPlayer)
+                        .setDuration(500)
+                        .setLoop(true)
+                        .setPlaying(true);
+            	
+            	tooltips.setTooltipText(playerSprite, "Player");
+                	
             }
             else {
             	spritesAliens[i] = graphicEntityModule.createSprite()
@@ -98,7 +114,8 @@ public class Referee extends AbstractReferee {
             
             i++;
         }
-        
+
+    	//tooltips.onGameInit();
     }
     
     private void drawBgDesc() {
@@ -119,16 +136,30 @@ public class Referee extends AbstractReferee {
 		        .setFontSize(50)
 		        .setFillColor(0xFFFFFF)
 		        .setX(100)
-		        .setY(220);
+		        .setY(180);
 		
     }
 
     private void update(int dest) {
 
-    	playerSprite.setX(cordsList.get(dest).getValue0()+35).setY(cordsList.get(dest).getValue1()+28);
+    	if(t==0) {
+    		for(int i = 0; i < vertices; i ++) {
+    			spritesPlanets[i].setX(spritesPlanets[i].getX()-3).setY(spritesPlanets[i].getY()-3);
+    		}
+    		t = 1;
+    	}
+    	else {
+    		for(int i = 0; i < vertices; i ++) {
+    			spritesPlanets[i].setX(spritesPlanets[i].getX()+3).setY(spritesPlanets[i].getY()+3);
+    		}
+    		t = 0;
+    	}
+    	playerSprite.setX(cordsList.get(dest).getValue0()+xOffPlayer).setY(cordsList.get(dest).getValue1()+yOffPlayer);
     	spritesAliens[dest].setVisible(false);
     	hpText.setText("HP: " + String.valueOf(hp));
     	staminaText.setText("Stamina: " + String.valueOf(stamina));
+    	
+    	
     	
     }    
     @Override
@@ -159,6 +190,7 @@ public class Referee extends AbstractReferee {
         spriteIdx = new int[vertices];
         spritesPlanets = new Sprite[vertices];
         spritesAliens = new Sprite[vertices];
+        lines = new Line[1000];
         
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
@@ -177,7 +209,7 @@ public class Referee extends AbstractReferee {
         graph = new Graph(vertices,edges,weights,connections,start,exit);
         
         for(int i = 0; i < vertices; i += 1) {
-        	spriteIdx[i] = new Random().nextInt(4);
+        	spriteIdx[i] = new Random().nextInt(6);
             cordsList.add(Pair.with(Integer.parseInt(cords[i*2]), Integer.parseInt(cords[i*2+1])));
             
             if (i == actualRoom) {

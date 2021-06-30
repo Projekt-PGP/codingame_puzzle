@@ -75,5 +75,9 @@ public class Graph {
 	{
 		return weights;
 	}
+	public int getWeight(int i)
+	{
+		return weights[i];
+	}
 
 }
