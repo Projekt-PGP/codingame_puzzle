@@ -82,7 +82,7 @@ public class Referee extends AbstractReferee {
                         .setImage(Constants.VERTICLE_SPRITE[spriteIdx[i]])
                         .setX(p.getValue0())
                         .setY(p.getValue1());
-            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nWeight: " + graph.getWeight(i));
+            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nHP Cost: " + graph.getWeight(i));
             }
         	else{
                 spritesPlanets[i] = graphicEntityModule.createSprite()
@@ -90,7 +90,7 @@ public class Referee extends AbstractReferee {
                         .setX(p.getValue0())
                         .setY(p.getValue1());
                 
-            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nWeight: " + graph.getWeight(i) + "\nEnding point");
+            	tooltips.setTooltipText(spritesPlanets[i], "Planet number: " + i + "\nHP Cost: " + graph.getWeight(i) + "\nEnding point");
             }
 
             if (i == actualRoom) {
@@ -119,7 +119,6 @@ public class Referee extends AbstractReferee {
             i++;
         }
 
-    	//tooltips.onGameInit();
     }
     
     private void drawBgDesc() {

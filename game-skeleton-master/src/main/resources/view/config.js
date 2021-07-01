@@ -5,5 +5,5 @@ import { TooltipModule } from './tooltip-module/TooltipModule.js';
 export const modules = [
 	GraphicEntityModule,
 	TooltipModule
-	
 ];
+
