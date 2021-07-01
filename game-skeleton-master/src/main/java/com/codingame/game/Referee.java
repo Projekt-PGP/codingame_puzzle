@@ -9,6 +9,7 @@ import org.javatuples.Pair;
 
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
+import com.codingame.gameengine.module.entities.Circle;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.codingame.gameengine.module.entities.Line;
 import com.codingame.gameengine.module.tooltip.*;
@@ -40,11 +41,13 @@ public class Referee extends AbstractReferee {
     private int yOffEnemy = 28;
     private int xOffPlanet = 64;
     private int yOffPlanet = 64;
+    private int how_many = 0;
     
     
     private Sprite spritesPlanets[];
     private SpriteAnimation spritesAliens[];
     private Line lines[];
+    private Circle circles[];
     private SpriteAnimation playerSprite;
     private Text hpText;
     private Text staminaText;
@@ -69,7 +72,13 @@ public class Referee extends AbstractReferee {
                         .setX2(cordsList.get(i).getValue0()+xOffPlanet)
                         .setY2(cordsList.get(i).getValue1()+yOffPlanet);
                 tooltips.setTooltipText(lines[x], "Stamina needed: " + p.getValue1());
+                circles[x] = graphicEntityModule.createCircle().setAlpha(0)
+                        .setRadius(40)
+                        .setX((cordsList.get(p.getValue0()).getValue0()+xOffPlanet+cordsList.get(i).getValue0()+xOffPlanet)/2)
+                        .setY((cordsList.get(p.getValue0()).getValue1()+xOffPlanet+cordsList.get(i).getValue1()+yOffPlanet)/2);
+                tooltips.setTooltipText(circles[x], "Stamina needed: " + p.getValue1());
                 x++;
+                how_many += 1;
             }
         }
     }
@@ -151,6 +160,9 @@ public class Referee extends AbstractReferee {
     			if (i != start)
     				spritesAliens[i].setX(spritesAliens[i].getX()-3).setY(spritesAliens[i].getY()-3);
     		}
+    		for(int i = 0; i < how_many; i ++) {
+    			circles[i].setX(circles[i].getX()-3).setY(circles[i].getY()-3);
+    		}
     		t = 1;
     	}
     	else {
@@ -158,6 +170,9 @@ public class Referee extends AbstractReferee {
     			spritesPlanets[i].setX(spritesPlanets[i].getX()+3).setY(spritesPlanets[i].getY()+3);
     			if (i != start)
     				spritesAliens[i].setX(spritesAliens[i].getX()+3).setY(spritesAliens[i].getY()+3);
+    		}
+    		for(int i = 0; i < how_many; i ++) {
+    			circles[i].setX(circles[i].getX()+3).setY(circles[i].getY()+3);
     		}
     		t = 0;
     	}
@@ -198,6 +213,8 @@ public class Referee extends AbstractReferee {
         spritesPlanets = new Sprite[vertices];
         spritesAliens = new SpriteAnimation[vertices];
         lines = new Line[1000];
+        circles = new Circle[1000];
+        
         
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
