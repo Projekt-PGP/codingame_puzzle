@@ -14,7 +14,9 @@ public class Constants {
     
     public static final String PLAYER_SPRITES[] = {"player_png.png", "player_png2.png", "player_png3.png", "player_png4.png"};
     public static final String VERTICLE_SPRITE[] = {"verticle_png.png", "verticle_png2.png", "verticle_png3.png", "verticle_png4.png", "verticle_png5.png", "verticle_png6.png"};
-    public static final String VERTICLE_ENEMY = "verticle_enemy_png.png";
+    public static final String VERTICLE_ENEMY[][] = {{"alien_png.png","alien_png2.png","alien_png3.png"}
+												    ,{"alien2_png.png","alien2_png2.png","alien2_png3.png"}
+												    ,{"alien3_png.png","alien3_png2.png","alien3_png3.png"}};
     public static final String END_VERTEX = "end_vertex_png.png";
     public static final String BACKGROUND_SPRITE = "bg_png.png";
 

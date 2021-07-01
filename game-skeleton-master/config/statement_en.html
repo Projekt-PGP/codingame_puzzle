@@ -7,7 +7,7 @@
       <span>The Goal</span>
     </h1>
     <div class="statement-goal-content">
-      Help the astronaut escape from foreign solar system. To do it you must find way to pick up superpower from star. But be careful, your fuel may end. Additionally, on every planet astronaut must fight with aliens. Find the way without decrease HP and fuel below 0!
+      Help the Astronaut escape from foreign Planetary System. To do it, the Astronaut has to find the way to collect superpower from the star. But be careful! Your fuel may end... Additionally, on every planet the Astronaut has to fight with aliens. Find the way to the star - stay alive and try avoid fuel shortage!
     </div>
   </div>
   <!-- RULES -->
@@ -18,9 +18,9 @@
     </h1>
     <div>
       <div class="statement-rules-content">Your program receives characters.<br>
-        In every round, program should print the next vertex, you want to go. Choose vertices between 0 to n, where n is the number of verticals.
+        Each round the program should print next vertex you want to go to. Choose vertices between 0 to n, where n is the number of verticals.
         <br>
-        Every travel between two planets consumes fuel. On every planet you must kill an alien. Your start fuel and HP are given as argument. A value of fuel you need, and HP need to defeat alien, player get in graph representation. 
+        Each travel between two vertex consumes fuel. On every vertex you have to beat an alien. Your initial fuel and HP are given as an argument. Amount of fuel that your ship consumes between two vertex, and HP needed to defeat an alien, the player gets as a graph representation. 
       </div>
     </div>
   </div>
@@ -36,18 +36,17 @@
       <div class="text">
         <p><span class="statement-lineno">Line 1: </span> First information is <var>N</var> - number of vertices.<br> 
         <p><span class="statement-lineno">Line 2: </span>Second argument is <var>E</var> - number of edges. <br>
-        <p><span class="statement-lineno">Line 3: </span>Third information are <var>W</var> - weight of vertices from 0 to <var>N</var>. <br>
-        <p><span class="statement-lineno">Line 4: </span>Fourth parametr are connect between two vertices and connect weight - <var>C</var>.<br>
-        <p><span class="statement-lineno">Line 5 and 6: </span>The next you get your <var>HP</var> and <var>F</var> - fuel.
-        <p><span class="statement-lineno">Line 7: </span>In the last line is <var>exit</var> - the target room.
+        <p><span class="statement-lineno">Line 3: </span>Third parameter is <var>W</var> - weight of vertices from 0 to <var>N</var>. <br>
+        <p><span class="statement-lineno">Line 4: </span>Fourth parameter is <var>C</var> - connection between two vertices and weight.<br>
+        <p><span class="statement-lineno">Line 5 and 6: </span>Subsequently you get your <var>HP</var> and <var>F</var> - fuel.
+        <p><span class="statement-lineno">Line 7: </span>In the last line is <var>exit</var> - the target planet.
       </div>
     </div>
-
     <!-- Protocol block -->
     <div class="blk">
       <div class="title">Output</div>
       <div class="text">
-          Single intiger that will bring you closer to escape vertex.
+          Single integer which brings you closer to exit vertex.
         <br>
       </div>
     </div>
@@ -69,7 +68,13 @@
 
       <div class="statement-examples-text">
         <div class="title">Input:</div>
-        4;5;4 3 2 5;1 2 3 1 3 4 0 1 1 0 3 4 1 3 3;20;20;1
+        <var>N<var/> = 4<br>
+        <var>E<var/> = 5<br>
+        <var>w<var/> = 4 3 2 5<br>
+        <var>C<var/> = 1 2 3 1 3 4 0 1 1 0 3 4 1 3 3<br>
+        <var>HP<var/> = 20<br>
+        <var>F<var/> = 20<br>
+        exit = 1<br><br>
         <div class="title">Information:</div>
         Number of vertices: 4<br><br>
         Number of edges: 5<br><br>
@@ -98,7 +103,7 @@
     <div class="statement-story-cover" style="background-size: cover; background-image: url(https://www.codingame.com/servlet/fileservlet?id=2210505809934)">
       <div class="statement-story">
         <h1>Get me out of here!</h1>
-        <div class="story-text">You are trapped in an other solar system. Unfortunately, the movement between some planets has been blocked by asteroids and you only need to use safe routes. In order to escape you must use the energy from the sun of the system.</div>
+        <div class="story-text">You are trapped in other Planet System. Unfortunately, the movement between some planets has been blocked by asteroids and you have to use safe routes only. In order to escape, you have to use the energy from the star of the system.</div>
       </div>
     </div>
   </div>

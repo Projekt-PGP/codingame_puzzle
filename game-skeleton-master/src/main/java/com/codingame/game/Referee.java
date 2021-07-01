@@ -1,5 +1,4 @@
 package com.codingame.game;
-import java.util.List;
 import java.util.Random;
 
 import com.codingame.gameengine.module.entities.Sprite;
@@ -10,7 +9,6 @@ import org.javatuples.Pair;
 
 import com.codingame.gameengine.core.AbstractReferee;
 import com.codingame.gameengine.core.SoloGameManager;
-import com.codingame.gameengine.module.entities.Entity;
 import com.codingame.gameengine.module.entities.GraphicEntityModule;
 import com.codingame.gameengine.module.entities.Line;
 import com.codingame.gameengine.module.tooltip.*;
@@ -18,6 +16,7 @@ import com.google.inject.Inject;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Referee extends AbstractReferee {
 	
@@ -37,12 +36,14 @@ public class Referee extends AbstractReferee {
     private int spriteIdx[];
     private int xOffPlayer = 18;
     private int yOffPlayer = 15;
+    private int xOffEnemy = 32;
+    private int yOffEnemy = 28;
     private int xOffPlanet = 64;
     private int yOffPlanet = 64;
     
     
     private Sprite spritesPlanets[];
-    private Sprite spritesAliens[];
+    private SpriteAnimation spritesAliens[];
     private Line lines[];
     private SpriteAnimation playerSprite;
     private Text hpText;
@@ -106,10 +107,13 @@ public class Referee extends AbstractReferee {
                 	
             }
             else {
-            	spritesAliens[i] = graphicEntityModule.createSprite()
-                        .setImage(Constants.VERTICLE_ENEMY)
-                        .setX(p.getValue0()+xOffPlayer)
-                        .setY(p.getValue1()+yOffPlayer);
+            	spritesAliens[i] = graphicEntityModule.createSpriteAnimation()
+                        .setImages(Constants.VERTICLE_ENEMY[new Random().nextInt(3)])
+                        .setX(p.getValue0()+xOffEnemy)
+                        .setY(p.getValue1()+yOffEnemy)
+                        .setDuration(500)
+                        .setLoop(true)
+                        .setPlaying(true);
             }
             
             i++;
@@ -145,12 +149,16 @@ public class Referee extends AbstractReferee {
     	if(t==0) {
     		for(int i = 0; i < vertices; i ++) {
     			spritesPlanets[i].setX(spritesPlanets[i].getX()-3).setY(spritesPlanets[i].getY()-3);
+    			if (i != start)
+    				spritesAliens[i].setX(spritesAliens[i].getX()-3).setY(spritesAliens[i].getY()-3);
     		}
     		t = 1;
     	}
     	else {
     		for(int i = 0; i < vertices; i ++) {
     			spritesPlanets[i].setX(spritesPlanets[i].getX()+3).setY(spritesPlanets[i].getY()+3);
+    			if (i != start)
+    				spritesAliens[i].setX(spritesAliens[i].getX()+3).setY(spritesAliens[i].getY()+3);
     		}
     		t = 0;
     	}
@@ -189,20 +197,12 @@ public class Referee extends AbstractReferee {
 
         spriteIdx = new int[vertices];
         spritesPlanets = new Sprite[vertices];
-        spritesAliens = new Sprite[vertices];
+        spritesAliens = new SpriteAnimation[vertices];
         lines = new Line[1000];
         
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
         String[] cords = graphConstructor[8].split(" ");
-
-        String testInput="";
-        /*for (int i=0;i<=7;i++)
-        {
-            testInput=testInput+graphConstructor[i]+";";
-        }
-        testInput=testInput.substring(0,testInput.length()-1);*/
-        //gameManager.getPlayer().sendInputLine(testInput);
         gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
 
@@ -256,7 +256,7 @@ public class Referee extends AbstractReferee {
                 }
                 else
                 {
-                    gameManager.loseGame("you cant go to this room");
+                    gameManager.loseGame("You can't fly to this planet");
                 }
             }
         } catch (Exception e) {
