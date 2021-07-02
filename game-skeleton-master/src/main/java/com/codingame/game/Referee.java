@@ -71,12 +71,12 @@ public class Referee extends AbstractReferee {
                         .setY(cordsList.get(p.getValue0()).getValue1()+xOffPlanet)
                         .setX2(cordsList.get(i).getValue0()+xOffPlanet)
                         .setY2(cordsList.get(i).getValue1()+yOffPlanet);
-                tooltips.setTooltipText(lines[x], "Stamina needed: " + p.getValue1());
+                tooltips.setTooltipText(lines[x], "Fuel cost: " + p.getValue1());
                 circles[x] = graphicEntityModule.createCircle().setAlpha(0)
                         .setRadius(40)
                         .setX((cordsList.get(p.getValue0()).getValue0()+xOffPlanet+cordsList.get(i).getValue0()+xOffPlanet)/2)
                         .setY((cordsList.get(p.getValue0()).getValue1()+xOffPlanet+cordsList.get(i).getValue1()+yOffPlanet)/2);
-                tooltips.setTooltipText(circles[x], "Stamina needed: " + p.getValue1());
+                tooltips.setTooltipText(circles[x], "Fuel cost: " + p.getValue1());
                 x++;
                 how_many += 1;
             }
@@ -144,7 +144,7 @@ public class Referee extends AbstractReferee {
 		        .setX(100)
 		        .setY(100);
 		
-		staminaText = graphicEntityModule.createText("Stamina:" + String.valueOf(stamina))
+		staminaText = graphicEntityModule.createText("Fuel:" + String.valueOf(stamina))
 		        .setFontSize(50)
 		        .setFillColor(0xFFFFFF)
 		        .setX(100)
@@ -179,7 +179,7 @@ public class Referee extends AbstractReferee {
     	playerSprite.setX(cordsList.get(dest).getValue0()+xOffPlayer).setY(cordsList.get(dest).getValue1()+yOffPlayer);
     	spritesAliens[dest].setVisible(false);
     	hpText.setText("HP: " + String.valueOf(hp));
-    	staminaText.setText("Stamina: " + String.valueOf(stamina));
+    	staminaText.setText("Fuel: " + String.valueOf(stamina));
     	
     	
     	
@@ -193,9 +193,11 @@ public class Referee extends AbstractReferee {
         gameManager.getPlayer().sendInputLine(graphConstructor[1]);
         gameManager.getPlayer().sendInputLine(graphConstructor[2]);
         gameManager.getPlayer().sendInputLine(graphConstructor[3]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[4]);
+        gameManager.getPlayer().sendInputLine(graphConstructor[5]);
         gameManager.getPlayer().sendInputLine(graphConstructor[6]);
         gameManager.getPlayer().sendInputLine(graphConstructor[7]);
-        gameManager.getPlayer().sendInputLine(graphConstructor[5]);
+
 
 
         vertices = Integer.parseInt(graphConstructor[0]);
@@ -219,7 +221,7 @@ public class Referee extends AbstractReferee {
         String weights = graphConstructor[2];
         String connections = graphConstructor[3];
         String[] cords = graphConstructor[8].split(" ");
-        gameManager.getPlayer().sendInputLine(String.valueOf(exit));
+        //gameManager.getPlayer().sendInputLine(String.valueOf(exit));
 
 
         graph = new Graph(vertices,edges,weights,connections,start,exit);
@@ -241,7 +243,7 @@ public class Referee extends AbstractReferee {
     @Override
     public void gameTurn(int turn) {
     	
-        gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
+        //gameManager.getPlayer().sendInputLine(String.format(String.valueOf(actualRoom)));
         gameManager.getPlayer().execute();
         
         try {
@@ -302,7 +304,7 @@ public class Referee extends AbstractReferee {
             }
             else if (Integer.parseInt(output)>=graph.getVertices())
             {
-                gameManager.loseGame("Outputed number is greater than number of verticles");
+                gameManager.loseGame("Outputed number is greater than number of vertices");
             } else {
                 return output;
             }
@@ -313,7 +315,7 @@ public class Referee extends AbstractReferee {
     public void checkVictory()
     {
         if (actualRoom==graph.getExitVertice())
-            gameManager.winGame("Congratz, you won!");
+            gameManager.winGame("Congratulations, you won!");
     }
 
     public void checkLose()

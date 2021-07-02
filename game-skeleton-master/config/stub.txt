@@ -1,10 +1,9 @@
-read Graph:string(30)
 read N:int
 read E:int
 read W:string(50)
 read C:string(300)
+read Start:int
+read exit:int
 read HP:int
 read F:int
-read exit:int
 gameloop
-read actualRoom:int
